@@ -1,63 +1,68 @@
 #include <iostream>
-using namespace std;
+#include <vector>
 
-int a[100];
-int n;
+const int PASSING_GRADE = 60;
 
-int getMax(int x[], int s){
-int m=x[0];
-for(int i=0;i<=s;i++){
-if(x[i]>m)
-m=x[i];
-}
-return m;
-}
-
-int getMin(int x[],int s)
-{
-    int m = x[0];
-	for(int i=0;i<=s;i++) {
-        if (x[i]<m) {
-    m=x[i];
+// Returns the highest value in the grades vector
+int getHighestGrade(const std::vector<int>& grades) {
+    int highest = grades[0];
+    for (size_t i = 0; i < grades.size(); i++) {
+        if (grades[i] > highest) {
+            highest = grades[i];
         }
-	}
-return m;
-}
-
-float getAvg(int x[], int s){
-	int t=0;
-    for(int i=0;i<s;i++){
-        t = t+x[i];
     }
-    float avg = t / s;
-    return avg;
+    return highest;
 }
 
-char getLetter(float g){
-	if(g>=90) return 'A';
-	if(g>=80) return 'B';
-	if(g>=70) return 'C';
-	if(g>=60) return 'D';
-	return 'F';
+// Returns the lowest value in the grades vector
+int getLowestGrade(const std::vector<int>& grades) {
+    int lowest = grades[0];
+    for (size_t i = 0; i < grades.size(); i++) {
+        if (grades[i] < lowest) {
+            lowest = grades[i];
+        }
+    }
+    return lowest;
 }
 
-int main(){
-    cout<<"Enter number of students: ";
-    cin>>n;
-    for(int i=0;i<n;i++){
-        cout<<"Enter grade "<<i+1<<": ";
-        cin>>a[i];
+// Computes the average of all grades
+float getAverageGrade(const std::vector<int>& grades) {
+    int total = 0;
+    for (size_t i = 0; i < grades.size(); i++) {
+        total += grades[i];
+    }
+    return static_cast<float>(total) / grades.size();
+}
+
+// Converts a numeric average into a letter grade
+char getLetterGrade(float average) {
+    if (average >= 90) return 'A';
+    if (average >= 80) return 'B';
+    if (average >= 70) return 'C';
+    if (average >= PASSING_GRADE) return 'D';
+    return 'F';
+}
+
+int main() {
+    int studentCount;
+    std::cout << "Enter number of students: ";
+    std::cin >> studentCount;
+
+    std::vector<int> grades(studentCount);
+    for (int i = 0; i < studentCount; i++) {
+        std::cout << "Enter grade " << (i + 1) << ": ";
+        std::cin >> grades[i];
     }
 
-    int mx = getMax(a,n);
-    int mn = getMin(a,n);
-    float av = getAvg(a,n);
-    char lt = getLetter(av);
+    int highest = getHighestGrade(grades);
+    int lowest = getLowestGrade(grades);
+    float average = getAverageGrade(grades);
+    char letterGrade = getLetterGrade(average);
 
-    cout<<"Highest: "<<mx<<endl;
-    cout<<"Lowest: "<<mn<<endl;
-    cout<<"Average: "<<av<<endl;
-    cout<<"Letter Grade: "<<lt<<endl;
+    std::cout << "Highest: " << highest << std::endl;
+    std::cout << "Lowest: " << lowest << std::endl;
+    std::cout << "Average: " << average << std::endl;
+    std::cout << "Letter Grade: " << letterGrade << std::endl;
 
     return 0;
 }
